@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Scopus</h1>
+<ul>
+    <li><a href="{% url 'scopus_years' %}">Get years</a></li>
+    <li><a href="{% url 'scopus_lt2000' %}">Download year < 2000</a></li>
+    <li><a href="{% url 'scopus_gt2000_subjects' %}">Get subjects > 2000</a></li>
+    <li><a href="{% url 'scopus_gt2000_download' %}">Download > 2000</a></li>
+    <li><a href="{% url 'scopus_lt2000_import' %}">Import < 2000</a></li>
+    <li><a href="{% url 'scopus_gt2000_import' %}">Import > 2000</a></li>
+    <li><a href="{% url 'scopus_author_to_json' %}">Author to json</a></li>
+</ul>
+
+<h1>ISI</h1>
+<ul>
+    <li><a href="{% url 'isi_paginate' %}">ISI paginate</a></li>
+    <li><a href="{% url 'isi_key' %}">ISI key</a></li>
+    <li><a href="{% url 'isi_import' %}">ISI import</a></li>
+    <li><a href="{% url 'isi_author_json' %}">ISI author json</a></li>
+</ul>
+</body>
+</html>
