@@ -30,4 +30,7 @@ urlpatterns = [
     url(r'^isi/key$', IsiKeyView.as_view(), name='isi_key'),
     url(r'^isi/import$', IsiImportView.as_view(), name='isi_import'),
     url(r'^isi/author-to-json$', IsiAuthorJson.as_view(), name='isi_author_json'),
+
+    url(r'^scopus/2017', Scopus2017View.as_view(), name='scopus_2017'),
+    url(r'^isi/2017', Isi2017View.as_view(), name='isi_2017'),
 ]

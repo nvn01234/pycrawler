@@ -307,7 +307,7 @@ class ScopusImportGt2000View(TemplateView):
 
 class ScopusAuthorToJsonView(TemplateView):
     def render_to_response(self, context, **response_kwargs):
-        for document in ScopusDocument.objects.filter(authors_json__isnull=True):
+        for document in Scopus2017Document.objects.filter(authors_json__isnull=True):
             print document.id
             authors = [
                 {"first_name": author[0], "last_name": author[1] if len(author) >= 2 else None, "organize": author[2] if len(author) >= 3 else None}
@@ -451,7 +451,7 @@ class IsiImportView(TemplateView):
 
 class IsiAuthorJson(TemplateView):
     def render_to_response(self, context, **response_kwargs):
-        for document in IsiDocument.objects.filter(authors_json__isnull=True):
+        for document in Isi2017Document.objects.filter(authors_json__isnull=True):
             print document.id
             l = map(self.map_row, document.affiliation.replace(' (Reprint Author)', '').replace('\\&', '&').split('.\n'))
             authors = [item for sublist in l for item in sublist]
@@ -477,3 +477,39 @@ class IsiAuthorJson(TemplateView):
         }
 
 # endregion
+
+
+#region 2017
+
+class Scopus2017View(TemplateView):
+    def render_to_response(self, context, **response_kwargs):
+        files = glob.glob(os.path.join("data", "scopus2017", "*.csv"))
+        for f in files:
+            print(f)
+            csvfile = open(f, 'r')
+            reader = csv.DictReader(csvfile, SCOPUS_FIELD_NAMES)
+            rows = [r for r in reader][1:]
+            for i, row in enumerate(rows):
+                data = {k: row[v] for (k, v) in SCOPUS_FIELDS}
+                Scopus2017Document.objects.create(**data)
+                print("%d/%d" % (i, len(rows)))
+        return redirect(reverse('home'))
+
+class Isi2017View(TemplateView):
+    def render_to_response(self, context, **response_kwargs):
+        keys = [x.name for x in IsiKey.objects.all()]
+        files = glob.glob(os.path.join("data", "isi2017", "*.bib"))
+        for f in files:
+            print(f)
+            with open(f) as bibtex_file:
+                bibtex_str = bibtex_file.read().decode('latin1')
+                bib_database = bibtexparser.loads(bibtex_str)
+                for i, entry in enumerate(bib_database.entries):
+                    print("%d/%d" % (i, len(bib_database.entries)))
+                    data = {k.replace('-', '_'): v for k, v in entry.items() if k.replace('-', '_') in keys}
+                    data['start'] = int(f.split("_")[1])
+                    data['end'] = int(f.split("_")[2].split(".")[0])
+                    Isi2017Document.objects.create(**data)
+        return redirect(reverse('home'))
+
+#endregion
