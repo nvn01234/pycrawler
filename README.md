@@ -25,20 +25,3 @@ data Scopus có dạng 2017_xxxx_yyyy.csv với xxxx là tên viết tắt của
 
 data Isi có dạng 2017_xxxx_yyyy.bib với xxxx và yyyy là start và end của đoạn record. Số lượng record khi search sẽ chia thành các đoạn độ dài tối đa 500 bản ghi. Trong bảng isi_documents_2017 có cột start và end chỉ đoạn record của nó.  
 
-## Scopus account
-
-thuy221286@gmail.com
-
-*IGVN3172
-
-## ISI proxy
-
-host: 112.137.131.9
-
-port: 7778 | 7890
-
-## Data storage:
-
-data/isi
-
-data/scopus
